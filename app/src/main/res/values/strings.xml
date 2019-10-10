@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FormValidationLiveData</string>
+    <string name="email">Email</string>
+    <string name="save">Save</string>
+</resources>
