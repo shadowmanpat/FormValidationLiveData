@@ -4,6 +4,7 @@
         <variable
             name="viewModel"
             type="com.nickagas.formvalidationlivedata.FormValidationViewModel" />
+        <variable name="handler" type="com.nickagas.formvalidationlivedata.Handler"/>
     </data>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,6 +27,41 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:enabled="@{viewModel.valid}"
+            android:onClick="@{handler::onClickMethodReference}"
+            android:text="@string/save" />
+        <Button
+            android:id="@+id/saveButton1"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:onClick="@{handler.onClickMethodReference}"
+            android:text="@string/save" />
+        <Button
+            android:id="@+id/saveButton2"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:onClick="@{() -> handler.onClickLamda()}"
+            android:text="@string/save" />       <Button
+            android:id="@+id/saveButton3"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+        android:onClick="@{(v) -> handler.onClickLamdaWithView(v)}"
+            android:text="@string/save" />       <Button
+            android:id="@+id/saveButton4"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+
+            android:onClick="@{(v) -> handler.onClickLamdaWithObject(v,viewModel)}"
             android:text="@string/save" />
     </LinearLayout>
 
