@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
@@ -7,7 +8,6 @@
         <variable name="handler" type="com.nickagas.formvalidationlivedata.Handler"/>
     </data>
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -63,6 +63,16 @@
 
             android:onClick="@{(v) -> handler.onClickLamdaWithObject(v,viewModel)}"
             android:text="@string/save" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/activity_main_recycler"
+            tools:listitem="@layout/item"
+            tools:context=".MainActivity" >
+
+           </androidx.recyclerview.widget.RecyclerView>
+
+
     </LinearLayout>
 
 </layout>
