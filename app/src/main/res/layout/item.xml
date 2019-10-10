@@ -4,13 +4,15 @@
     <data>
         <variable
             name="item"
-            type="com.nickagas.formvalidationlivedata.ItemViewModel"/>
+            type="com.nickagas.formvalidationlivedata.Item"/>
+        <variable name="handler" type="com.nickagas.formvalidationlivedata.Handler"/>
+        <variable name="viewModel" type="com.nickagas.formvalidationlivedata.FormValidationViewModel"/>
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:onClick="@{(v) -> viewModel.removeFirstItem(v,item)}"
         android:layout_margin="12dp"
         android:padding="8dp">
 
@@ -19,7 +21,7 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="start|center"
-            android:text="@{item.position}"
+            android:text="@{item.id}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             tools:text="1."/>
 
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="center"
-            android:text="@{item.name}"
+            android:text="@{item.firstName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             tools:text="Edward Dolański"/>
 
@@ -37,7 +39,7 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="end|center"
-            android:text="@{item.team}"
+            android:text="@{item.teamName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             tools:text="Super Team"/>
 

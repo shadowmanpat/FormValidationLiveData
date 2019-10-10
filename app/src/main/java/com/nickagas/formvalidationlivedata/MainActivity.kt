@@ -8,10 +8,12 @@ import com.nickagas.formvalidationlivedata.databinding.ActivityMainBinding
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
+import androidx.lifecycle.Observer
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import java.util.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,36 +28,47 @@ class MainActivity : AppCompatActivity() {
         const val myUserId = "id_123"
     }
 
-    var list = listOf<Item>(
-        Item(UUID.randomUUID().toString(), "Frank", "Overtrees", 1, "Team Gnome"),
-        Item(UUID.randomUUID().toString(), "Kate", "Whitewalker", 2, "Team Gnome"),
-        Item(UUID.randomUUID().toString(), "Edward", "Baker", 3, "Team KDE"),
-        Item(myUserId, "Tony", "Ashenberg", 4, "Team xfce"),
-        Item(UUID.randomUUID().toString(), "Roman", "Antysoman", 5, "Team xfce"),
-        Item(UUID.randomUUID().toString(), "Mike", "The Shroom", 6, "Team Gnome"),
-        Item(UUID.randomUUID().toString(), "Dolan", "Dolański", 7, "Team KDE")
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         title = "My Cool Form"
+        viewModel.initList()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.setLifecycleOwner(this)
+
         binding.viewModel = viewModel
         val handler = Handler()
         binding.handler = handler
-        setAdapter()
 
+
+        setAdapter()
+        remove?.setOnClickListener {
+            viewModel._list.value?.get(0)?.firstName  = "nikos"
+            viewModel._list.value = viewModel._list.value
+        }
+
+        val listObserver = Observer<List<Item>> { newName ->
+            // Update the UI, in this case, a TextView.
+            Log.d("observe", newName.toString())
+
+        }
+        viewModel._list.observe(this, listObserver)
     }
+
+
     private fun setAdapter() {
         binding.activityMainRecycler.layoutManager = LinearLayoutManager(this, VERTICAL, false)
         val itemAdapter = ItemAdapter()
         binding.activityMainRecycler.adapter = itemAdapter
+        itemAdapter.viewModel = viewModel
+        viewModel._list.observe(this, androidx.lifecycle.Observer {
+            Log.d("observe", it.toString())
 
-        val viewModelList = list.map {
-            ItemViewModel(it.position.toString(), "${it.firstName} ${it.lastName}", it.teamName, it.id.contentEquals(myUserId))
-        }
+            itemAdapter.items = it
 
-        itemAdapter.items = viewModelList
+            itemAdapter.notifyDataSetChanged()
+        })
+
     }
 }

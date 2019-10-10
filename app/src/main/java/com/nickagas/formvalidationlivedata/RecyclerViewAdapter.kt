@@ -7,9 +7,7 @@ import com.nickagas.formvalidationlivedata.databinding.ItemBinding
 
 
 
-data class Item(val id : String, val firstName : String, val lastName : String, val position : Int, val teamName : String)
-
-class ItemViewModel(val position : String, val name : String, val team : String, val isMe : Boolean)
+data class Item(var id : String, var firstName : String, val lastName : String, val position : Int, val teamName : String)
 
 class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
@@ -17,11 +15,13 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
         return ItemViewHolder(ItemBinding.inflate(LayoutInflater.from(parent?.context), parent, false))
     }
 
-    var items = listOf<ItemViewModel>()
+    var items = listOf<Item>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
+    var viewModel: FormValidationViewModel? = null
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) = holder.bind(items[position])
 
@@ -29,8 +29,10 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     override fun getItemCount(): Int = items.size
 
     inner class ItemViewHolder(private val itemBinding: ItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(itemViewModel: ItemViewModel) {
-            itemBinding.item = itemViewModel
+        fun bind(item: Item) {
+            itemBinding.item = item
+            itemBinding.handler = Handler()
+            itemBinding.viewModel = viewModel
             itemBinding.executePendingBindings()
         }
     }
